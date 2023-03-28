@@ -8,6 +8,7 @@ export const instantiateAuth = (passport: import('passport').PassportStatic) => 
       {
         usernameField: 'name',
         passwordField: 'password',
+        session: true,
       },
       async (username: string, password: string, done: any) => {
         const isValid = await helper.comparePasswords(password, username)
@@ -20,8 +21,8 @@ export const instantiateAuth = (passport: import('passport').PassportStatic) => 
     )
   )
 
-  passport.serializeUser(async (user, done) => {
-    done(null, user)
+  passport.serializeUser(async (user: any, done) => {
+    done(null, { name: user.name })
   })
 
   passport.deserializeUser((user, done) => {

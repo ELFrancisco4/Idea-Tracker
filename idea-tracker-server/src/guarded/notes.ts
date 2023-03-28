@@ -1,20 +1,20 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request as ExpressRequest, Response } from 'express'
 
 import * as helper from '../controllers/helpers'
 
 export const noteRouter = Router()
 
-noteRouter.get('/notes', (req: Request, res: Response) => {
-  console.log(req.user)
-
-  const query = helper.viewAllNotes()
-  try {
-    query.then((userNotes) => {
-      res.status(200).json(userNotes)
-    })
-  } catch (error) {
-    res.status(500).json({ err: 'Could not get user data' })
+interface Request extends ExpressRequest {
+  user: {
+    name: string
+    notes: string[]
   }
+}
+
+noteRouter.get('/notes', async (req: Request, res: Response) => {
+  const notes = await helper.viewAllNotes(req.user.name)
+
+  res.send(notes)
 })
 
 noteRouter.get('/notes/:id', (req: Request, res: Response) => {
@@ -31,22 +31,23 @@ noteRouter.get('/notes/:id', (req: Request, res: Response) => {
 })
 
 noteRouter.delete('/remove-note', async (req, res) => {
-  const { name, id } = req.body
+  const { name, idx } = req.body
 
-  await helper.deleteNote(name, id)
+  await helper.deleteNote(name, idx)
 
-  res.status(200).send('Note deleted successfully')
+  res.send({ success: true, message: 'Note deleted successfully' })
 })
 
-noteRouter.post('/new', async (req, res) => {
-  const { title, category, body, name } = req.body
+noteRouter.post('/notes', async (req: Request, res) => {
+  const { title, category, body } = req.body
   const note = {
     title,
     category,
     body,
   }
-  await helper.createNote(name, note)
-  res.status(200).send('Note created successfully')
+
+  await helper.createNote(req.user.name, note)
+  res.send({ success: true })
 })
 
 noteRouter.put('/edit/:id', (req, res) => {

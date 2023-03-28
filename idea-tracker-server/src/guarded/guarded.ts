@@ -5,13 +5,10 @@ import { guardedUserRouter } from './user'
 
 export const guardedRouter = Router()
 
-// All routes will need auth to work
-// You can access the user from:
-// req.user (type-safe)
-// OR
-// req.session.passport.user (not type-safe)
-// Check notes.ts:8
-guardedRouter.use(passport.authenticate('local'))
+guardedRouter.use((req, res, next) => {
+  if (!req.session || !req.user) res.status(401).json({ message: 'Unauthorized' })
+  else next()
+})
 
 guardedRouter.use(noteRouter)
 guardedRouter.use(guardedUserRouter)
