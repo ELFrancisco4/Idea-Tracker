@@ -1,46 +1,30 @@
 //Import local strategy from passport-local
-const LocalStrategy = require("passport-local").Strategy;
-import { comparePasswords } from "./helpers";
-import { UserModel } from "../models/users";
+import { Strategy as LocalStrategy } from 'passport-local'
+import * as helper from './helpers'
 
-// export const instantiateAuth = (passport) => {
-//   const authenticateUser = async (name, password, done) => {
+export const instantiateAuth = (passport: import('passport').PassportStatic) => {
+  passport.use(
+    new LocalStrategy(
+      {
+        usernameField: 'name',
+        passwordField: 'password',
+      },
+      async (username: string, password: string, done: any) => {
+        const isValid = await helper.comparePasswords(password, username)
 
-//     if (user == null) {
-//       return done(null, false, { message: "No such user found" });
-//     }
+        if (!isValid) return done(null, false, { message: 'Incorrect username or password.' })
 
-//     try {
-//       if (await comparePasswords(name, password)) {
-//         return done(null, user);
-//       } else {
-//         return done(null, false, { message: "Incorrect username or password" });
-//       }
-//     } catch (error) {
-//       return done(error)
-//     }
-//   };
+        const user = await helper.getUser(username)
+        done(null, user)
+      }
+    )
+  )
 
-//   passport.use(
-//     new LocalStrategy({
-//       usernameField: "name",
-//       passwordField: "password",
-//       passReqToCallback: true,
-//       session: false,
-//     }, authenticateUser)
-//   );
+  passport.serializeUser(async (user, done) => {
+    done(null, user)
+  })
 
-//   passport.serializeUser((user, done) => {});
-//   passport.deserializeUser((user, done) => {});
-// };
-
-export const instantiateAuth = (passport) => {
-  passport.use(UserModel.createStrategy());
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
   passport.deserializeUser((user, done) => {
-    
-  });
-};
+    done(null, user)
+  })
+}
