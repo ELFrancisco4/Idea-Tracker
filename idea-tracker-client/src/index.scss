@@ -1,0 +1,31 @@
+:root {
+  --primary-color: #653cf6;
+  --secondary-color: #ffffff;
+  --text-color: #000000;
+  --font-family: acumin-pro;
+  --theme-red: #f30509;
+  --theme-purple: #7e65ff;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: var(--font-family);
+}
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+input {
+  color: var(--text-color);
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
