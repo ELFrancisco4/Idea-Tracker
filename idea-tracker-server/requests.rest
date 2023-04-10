@@ -1,7 +1,6 @@
-
 POST http://localhost:5000/login
 
 {
-     name: "Hacker",
-     password: "12345"
+    "name": "New Noob",
+    "password": "12345"
 }

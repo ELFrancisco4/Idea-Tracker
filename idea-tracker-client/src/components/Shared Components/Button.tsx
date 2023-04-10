@@ -1,12 +1,12 @@
 type ButtonProps = {
-  onSubmit?: any;
   text: string;
+  type?: "submit" | "reset";
   onClick?: any;
 };
 
-const Button = ({ onSubmit, text, onClick }: ButtonProps) => {
+const Button = ({ text, onClick, type }: ButtonProps) => {
   return (
-    <button onClick={onClick} onSubmit={onSubmit}>
+    <button type={type} onClick={onClick}>
       {text}
     </button>
   );

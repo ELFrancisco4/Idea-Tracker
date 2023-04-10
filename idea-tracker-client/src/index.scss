@@ -2,7 +2,7 @@
   --primary-color: #653cf6;
   --secondary-color: #ffffff;
   --text-color: #000000;
-  --font-family: acumin-pro;
+  --font-family: Sans-serif;
   --theme-red: #f30509;
   --theme-purple: #7e65ff;
 }
@@ -14,7 +14,6 @@
 body {
   font-family: var(--font-family);
 }
-a,
 h1,
 h2,
 h3,
@@ -28,4 +27,8 @@ input {
 }
 ul {
   list-style-type: none;
+}
+a{
+  color: var(--primary-color);
+  text-decoration: none;
 }

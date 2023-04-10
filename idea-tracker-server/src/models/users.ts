@@ -11,6 +11,10 @@ const UserSchema = new Schema({
     type: String,
     required: [true, 'Must provide a password'],
   },
+  email: {
+    type: String,
+    required: [true, 'Must provide an email'],
+  },
   notes: [
     {
       title: {

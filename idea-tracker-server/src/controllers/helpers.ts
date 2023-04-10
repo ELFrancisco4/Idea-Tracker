@@ -20,7 +20,7 @@ export const viewAllNotes = async (name: string) => {
   }
 }
 
-export const createUser = async (name, email, password) => {
+export const createUser = async (name,email, password) => {
   const newUser = new UserModel({
     name: name,
     email: email,
@@ -77,8 +77,13 @@ export const viewOneNote = async (title: string, id: number) => {
   return note
 }
 
-export const updateNote = async (title: string, id: number) => {
-  const query = await UserModel.findOne({ 'notes.title': title }).exec()
+export const updateNote = async (title: string, name:string, body: string) => {
+   const res = await UserModel.findOneAndUpdate(
+    {name, 'notes.title': title  },
+    {$set: { 'notes.$.body': body }},
+    {new: true}
+   )
+   return res
 }
 
 export const filterNotesByCriteria = (category: string) => {}

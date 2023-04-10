@@ -1,7 +1,11 @@
+type FormProps = {
+  children: any,
+  onSubmit: any
+}
 
-const Form = ({children}: any) => {
+const Form = ({children, onSubmit}:FormProps) => {
   return (
-    <form>
+    <form onSubmit={onSubmit}>
         {children}
     </form>
   )
