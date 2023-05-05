@@ -1,0 +1,35 @@
+:root {
+  --primary-color: #653cf6;
+  --secondary-color: #ffffff;
+  --text-color: #000000;
+  --theme-red: #f30509;
+  --theme-purple: #7e65ff;
+  --bg-color: #f2f4ff;
+  --theme-pink: pink;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+input {
+  color: var(--text-color);
+  text-decoration: none;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
