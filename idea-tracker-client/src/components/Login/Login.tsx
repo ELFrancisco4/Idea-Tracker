@@ -23,19 +23,23 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { setIsLoggedIn } = useContext(AuthContext);
-
   const handleSubmit = async (values: FormikValues) => {
     const { name, password } = values;
     console.log(name, password);
     try {
-      const res = await axios.post("http://localhost:5000/login", {
-        name,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:5000/login",
+        {
+          name,
+          password,
+        },
+        { withCredentials: true }
+      );
+
       if (res) {
-        localStorage.setItem("currentUser", JSON.stringify({ name, password }));
         navigate("/home");
-        setIsLoggedIn(true)
+        setIsLoggedIn(true);
+        localStorage.setItem("currentUser", JSON.stringify({ name }));
       } else {
         alert("Login Failed. Username or Password incorrect");
       }

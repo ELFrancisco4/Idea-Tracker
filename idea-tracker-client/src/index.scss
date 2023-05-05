@@ -2,9 +2,10 @@
   --primary-color: #653cf6;
   --secondary-color: #ffffff;
   --text-color: #000000;
-  --font-family: Sans-serif;
   --theme-red: #f30509;
   --theme-purple: #7e65ff;
+  --bg-color: #f2f4ff;
+  --theme-pink: pink;
 }
 * {
   margin: 0;
@@ -12,7 +13,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: var(--font-family);
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 h1,
 h2,
@@ -28,7 +29,7 @@ input {
 ul {
   list-style-type: none;
 }
-a{
+a {
   color: var(--primary-color);
   text-decoration: none;
 }

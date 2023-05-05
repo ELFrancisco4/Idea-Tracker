@@ -10,7 +10,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  return (
+  return ( 
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       <div className="App">
         <Routes>
