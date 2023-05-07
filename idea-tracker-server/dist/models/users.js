@@ -9,12 +9,31 @@ const Schema = mongoose_1.default.Schema;
 const UserSchema = new Schema({
     name: {
         type: String,
-        required: [true, "Provide a name"],
+        required: [true, 'Provide a name'],
     },
     password: {
         type: String,
-        required: [true, "Must provide a password"],
+        required: [true, 'Must provide a password'],
     },
+    email: {
+        type: String,
+        required: [true, 'Must provide an email'],
+    },
+    notes: [
+        {
+            title: {
+                type: String,
+                required: [true, 'Title property is required'],
+            },
+            category: {
+                type: String,
+            },
+            body: {
+                type: String,
+                required: [true, 'Must provide a body for your notes'],
+            },
+        },
+    ],
 });
-exports.UserModel = mongoose_1.default.model("users", UserSchema);
+exports.UserModel = mongoose_1.default.model('users', UserSchema);
 //# sourceMappingURL=users.js.map

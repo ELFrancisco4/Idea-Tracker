@@ -8,11 +8,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const connectToDb = () => {
-    mongoose_1.default.connect(process.env.MONGO_URI)
+    return mongoose_1.default
+        .connect(process.env.MONGO_URI)
         .then(() => {
-        console.log("Connected to mongodb");
+        console.log('Connected to mongodb');
     })
-        .catch(err => {
+        .catch((err) => {
         console.log(err);
     });
 };
