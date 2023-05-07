@@ -1,6 +1,0 @@
-POST http://localhost:5000/login
-
-{
-    "name": "New Noob",
-    "password": "12345"
-}

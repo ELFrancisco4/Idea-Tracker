@@ -48,3 +48,5 @@ app.listen(PORT, async () => {
   await connectToDb()
   console.log(`App is listening on port ${PORT}`)
 })
+
+
