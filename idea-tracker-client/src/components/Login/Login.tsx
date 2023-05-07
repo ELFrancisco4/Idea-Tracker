@@ -26,15 +26,18 @@ const Login = () => {
   const handleSubmit = async (values: FormikValues) => {
     const { name, password } = values;
     console.log(name, password);
+    console.log( `${import.meta.env.VITE_SERVER_URL}/login`)
     try {
       const res = await axios.post(
-        "http://localhost:5000/login",
+        `${import.meta.env.VITE_SERVER_URL}/login`,
         {
           name,
           password,
         },
         { withCredentials: true }
       );
+
+     
 
       if (res) {
         navigate("/home");

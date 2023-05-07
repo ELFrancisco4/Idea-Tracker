@@ -5,6 +5,7 @@ import Logo from "../components/Shared Components/Logo";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import Notes from "../components/Notes/Notes";
+
 const HomePage = () => {
   const loginDetails = JSON.parse(
     localStorage.getItem("currentUser") as string
@@ -14,7 +15,7 @@ const HomePage = () => {
   const { setIsLoggedIn } = useContext(AuthContext);
 
   const logOut = async () => {
-    await axios.post("http://localhost:5000/logout");
+    await axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`);
     localStorage.removeItem("currentUser");
     setIsLoggedIn(false);
     navigate("/login");

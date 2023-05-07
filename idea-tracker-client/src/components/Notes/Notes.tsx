@@ -16,7 +16,7 @@ const Notes = () => {
 
   useEffect(() => {
     const getNotes = async () => {
-      const res = await axios.get("http://localhost:5000/notes", {
+      const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/notes`, {
         withCredentials: true,
       });
       setNotes([...res.data]);
@@ -32,7 +32,7 @@ const Notes = () => {
   });
 
   const addNewNote = async (values: FormikValues) => {
-    const res = await axios.post("http://localhost:5000/notes", values, {
+    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/notes`, values, {
       withCredentials: true,
     });
     if (res) {
@@ -49,7 +49,7 @@ const Notes = () => {
     const promptValue: any = prompt("Enter id of note to be deleted", "10");
     const idx = parseInt(promptValue);
     console.log(idx);
-    const res = await axios.delete("http://localhost:5000/remove-note", {
+    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/remove-note`, {
       data: { name, idx },
       headers: { Authorization: "*" },
     });

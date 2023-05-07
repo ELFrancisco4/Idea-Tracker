@@ -14,8 +14,8 @@ const SignUp = () => {
   const handleSignUp = async (values: FormikValues) => {
     try {
       const { name, email, password } = values;
-      console.log(values)
-      const res = await axios.post("http://localhost:5000/signup", {
+      console.log(values);
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, {
         name,
         email,
         password,
@@ -64,10 +64,10 @@ const SignUp = () => {
 
           <label htmlFor="name">Username</label>
           {formik.touched.name && formik.errors.name ? (
-                <span className="errors">{formik.errors.name}</span>
-              ) : (
-                ""
-              )}
+            <span className="errors">{formik.errors.name}</span>
+          ) : (
+            ""
+          )}
           <InputField
             classname="text_input"
             id="name"
@@ -80,10 +80,10 @@ const SignUp = () => {
 
           <label htmlFor="email">Email Address</label>
           {formik.touched.email && formik.errors.email ? (
-                <span className="errors">{formik.errors.email}</span>
-              ) : (
-                ""
-              )}
+            <span className="errors">{formik.errors.email}</span>
+          ) : (
+            ""
+          )}
           <InputField
             classname="text_input"
             id="email"
@@ -96,10 +96,10 @@ const SignUp = () => {
 
           <label htmlFor="password">Password</label>
           {formik.touched.password && formik.errors.password ? (
-                <span className="errors">{formik.errors.password}</span>
-              ) : (
-                ""
-              )}
+            <span className="errors">{formik.errors.password}</span>
+          ) : (
+            ""
+          )}
           <InputField
             classname="text_input"
             id="password"
@@ -111,7 +111,9 @@ const SignUp = () => {
           />
 
           <Button type="submit" text="SIGN UP" />
-          <span>Already signed up? <a href="/login">Login</a></span>
+          <span>
+            Already signed up? <a href="/login">Login</a>
+          </span>
         </Form>
       </section>
     </div>
