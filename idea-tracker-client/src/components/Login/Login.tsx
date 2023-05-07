@@ -25,8 +25,6 @@ const Login = () => {
   const { setIsLoggedIn } = useContext(AuthContext);
   const handleSubmit = async (values: FormikValues) => {
     const { name, password } = values;
-    console.log(name, password);
-    console.log( `${import.meta.env.VITE_SERVER_URL}/login`)
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/login`,

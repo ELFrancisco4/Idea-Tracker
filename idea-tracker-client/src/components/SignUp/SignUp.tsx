@@ -14,7 +14,6 @@ const SignUp = () => {
   const handleSignUp = async (values: FormikValues) => {
     try {
       const { name, email, password } = values;
-      console.log(values);
       const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, {
         name,
         email,
