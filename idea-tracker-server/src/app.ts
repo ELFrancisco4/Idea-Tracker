@@ -16,7 +16,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://idea-tracker-six.vercel.app/",
+    origin: process.env.ALLOWED_ORIGIN,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
   })
