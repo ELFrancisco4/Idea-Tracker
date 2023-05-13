@@ -14,17 +14,15 @@ import { instantiateAuth } from "./controllers/auth";
 const PORT = process.env.PORT || 5000;
 const app = express();
 
-const allowCrossDomain = function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Vary", "Origin");
-  next();
-};
-app.use(allowCrossDomain);
+app.use(cors())
+
+app.use(
+  cors({
+    origin: "https://idea-tracker-six.vercel.app"
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(
   session({
     secret: "hackingisillegal",
@@ -38,7 +36,6 @@ app.use(
     },
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
