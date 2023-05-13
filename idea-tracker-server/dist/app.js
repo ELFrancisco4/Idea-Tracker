@@ -27,7 +27,7 @@ const PORT = process.env.PORT || 5000;
 const app = (0, express_1.default)();
 app.use(cors({
     origin: "https://idea-tracker-six.vercel.app",
-    withCredentials: true,
+    credentials: true,
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
