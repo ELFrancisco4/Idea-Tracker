@@ -26,21 +26,20 @@ const auth_1 = require("./controllers/auth");
 const PORT = process.env.PORT || 5000;
 const app = (0, express_1.default)();
 app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
+    origin: "https://idea-tracker-six.vercel.app"
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, express_session_1.default)({
-    secret: 'keyboard cat',
+    secret: "hackingisillegal",
     resave: false,
     saveUninitialized: false,
     cookie: {
         maxAge: 60 * 60 * 1000,
         httpOnly: true,
         secure: false,
-        sameSite: 'none'
-    }
+        sameSite: "none",
+    },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
