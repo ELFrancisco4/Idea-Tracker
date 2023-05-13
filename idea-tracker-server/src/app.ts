@@ -16,7 +16,8 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://idea-tracker-six.vercel.app"
+    origin: "https://idea-tracker-six.vercel.app",
+    withCredentials: true,
   })
 );
 app.use(express.json());
