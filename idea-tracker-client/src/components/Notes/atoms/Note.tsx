@@ -1,29 +1,44 @@
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios, { AxiosRequestConfig } from "axios";
+import NoteElement from "./NoteElement";
 type NoteProps = {
-  title: string;
-  category: string;
-  body: string;
-  key: string;
-  deleteNote: () => void;
+  title?: string;
 };
+const Note = ({ title }: NoteProps) => {
+  const id = useParams();
+  const [note, setNote] = useState<any>([]);
 
-import { FaRegEdit } from "react-icons/fa";
-import { GrFormView } from "react-icons/gr";
-import { AiFillDelete } from "react-icons/ai";
-import React from "react";
+  useEffect(() => {
+    const findSearchedNote = async () => {
+      const requestConfig: AxiosRequestConfig = {};
+      requestConfig.data = { title };
+      const res = await axios.get(
+        `http://localhost:5000/notes/${id}`,
+        requestConfig
+      );
 
-const Note = ({ title, category, body, key, deleteNote }: NoteProps) => {
+      if (res) {
+        setNote([...res.data]);
+        console.log(res.data);
+      }
+    };
+  }, []);
   return (
-    <React.Fragment key={key}>
-      <div className="note">
-        <h3>{title}</h3>
-        <span>{category}</span>
-        <div>{body}</div>
-        <span>
-          {" "}
-          <FaRegEdit /> <GrFormView /> <AiFillDelete onClick={deleteNote} />
-        </span>
-      </div>
-    </React.Fragment>
+    <div>
+      {note
+        ? note.map((val: any) => {
+            return (
+              <NoteElement
+                body={val.body}
+                category={val.category}
+                title={val.title}
+                key={val._id}
+              />
+            );
+          })
+        : null}
+    </div>
   );
 };
 

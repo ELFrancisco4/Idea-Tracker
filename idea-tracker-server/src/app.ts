@@ -4,22 +4,26 @@ import express from "express";
 const passport = require("passport");
 const cors = require("cors");
 import session from "express-session";
-
 import { connectToDb } from "./controllers/db";
 import { homeRouter } from "./home";
 import { userRouter } from "./user";
 import { guardedRouter } from "./guarded";
 import { instantiateAuth } from "./controllers/auth";
 
+const morgan = require("morgan");
 const PORT = process.env.PORT || 5000;
 const app = express();
 
+app.use(morgan("combined"));
+
 app.use(
   cors({
-    origin: "https://idea-tracker-six.vercel.app",
+    origin: ["https://idea-tracker-six.vercel.app", "http://localhost:3000"],
     credentials: true,
+    methods: ["GET", "POST", "DELETE", "PUT"],
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(

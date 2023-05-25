@@ -1,7 +1,7 @@
 import "./notes.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Note from "./atoms/Note";
+import NoteElement from "./atoms/NoteElement";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import InputField from "../Shared Components/InputField";
 import { AiFillDelete } from "react-icons/ai";
@@ -11,8 +11,10 @@ import { useFormik, FormikValues } from "formik";
 import Form from "../Shared Components/Form";
 
 const Notes = () => {
-  const [notes, setNotes] = useState<object[]>([]);
+  const [notes, setNotes] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchedValue, setSearchedValue] = useState<any>([]);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const getNotes = async () => {
@@ -25,6 +27,16 @@ const Notes = () => {
     Modal.setAppElement("body");
   }, []);
 
+  useEffect(() => {
+    const filteredNotes = notes.filter((item) =>
+      item.title.includes(inputValue)
+    );
+    setSearchedValue(() => {
+      return [...filteredNotes];
+    });
+    console.log(searchedValue);
+  }, [inputValue]);
+
   const validationSchema = yup.object({
     title: yup.string().required(),
     category: yup.string().required(),
@@ -32,9 +44,13 @@ const Notes = () => {
   });
 
   const addNewNote = async (values: FormikValues) => {
-    const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/notes`, values, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_SERVER_URL}/notes`,
+      values,
+      {
+        withCredentials: true,
+      }
+    );
     if (res) {
       notes.push(values);
       console.log(values);
@@ -46,13 +62,15 @@ const Notes = () => {
 
   const deleteNote = async () => {
     const name = localStorage.getItem("name");
-    const promptValue: any = prompt("Enter id of note to be deleted", "10");
+    const promptValue: any = prompt("Enter id of note to be deleted");
     const idx = parseInt(promptValue);
-    console.log(idx);
-    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/remove-note`, {
-      data: { name, idx },
-      headers: { Authorization: "*" },
-    });
+    const res = await axios.delete(
+      `${import.meta.env.VITE_SERVER_URL}/remove-note`,
+      {
+        data: { name, idx },
+        withCredentials: true,
+      }
+    );
 
     if (res) {
       notes.splice(idx, 1);
@@ -61,7 +79,8 @@ const Notes = () => {
       console.log("Error, something went wrong.");
     }
   };
-  const updateNote = () => {};
+
+  const updateNote = () => {}; // To be defined
 
   const formik = useFormik({
     initialValues: { title: "", category: "", body: "" },
@@ -76,8 +95,11 @@ const Notes = () => {
         type="search"
         id="search"
         classname="search_notes"
-        placeholder="Search notes..."
+        placeholder="Search notes by title..."
+        value={inputValue}
+        onChange={(e: any) => setInputValue(e.target.value)}
       />
+
       <div className="notes">
         <div className="notes_title">
           <h1>User Notes</h1>
@@ -87,10 +109,10 @@ const Notes = () => {
           </span>
         </div>
 
-        {notes.length > 0 ? (
-          notes.map((note: any) => {
+        {searchedValue.length > 0 ? (
+          searchedValue.map((note: any) => {
             return (
-              <Note
+              <NoteElement
                 deleteNote={deleteNote}
                 key={note.title}
                 title={note.title}
