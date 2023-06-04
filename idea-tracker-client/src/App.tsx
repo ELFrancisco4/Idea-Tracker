@@ -16,6 +16,7 @@ const App = () => {
       <div className="App">
         <Routes>
           <Route path="/" element={<SignUp />} />
+          <Route path="/home/note/:id" element={<Note />} />
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/home"
@@ -25,7 +26,6 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route path="/home/note/:id" element={<Note />} />
         </Routes>
       </div>
     </AuthContext.Provider>

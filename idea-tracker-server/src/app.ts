@@ -9,12 +9,14 @@ import { homeRouter } from "./home";
 import { userRouter } from "./user";
 import { guardedRouter } from "./guarded";
 import { instantiateAuth } from "./controllers/auth";
+const fs = require("fs");
 
 const morgan = require("morgan");
 const PORT = process.env.PORT || 5000;
 const app = express();
+const accessLogStream = fs.createWriteStream("./access.log", { flags: "a" });
 
-app.use(morgan("combined"));
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(
   cors({

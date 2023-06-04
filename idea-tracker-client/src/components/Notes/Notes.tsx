@@ -25,7 +25,7 @@ const Notes = () => {
     };
     getNotes();
     Modal.setAppElement("body");
-  }, []);
+  }, [notes]);
 
   useEffect(() => {
     const filteredNotes = notes.filter((item) =>
@@ -34,7 +34,6 @@ const Notes = () => {
     setSearchedValue(() => {
       return [...filteredNotes];
     });
-    console.log(searchedValue);
   }, [inputValue]);
 
   const validationSchema = yup.object({
@@ -53,11 +52,30 @@ const Notes = () => {
     );
     if (res) {
       notes.push(values);
-      console.log(values);
     } else {
       alert("Something went wrong, try again later");
     }
     setIsOpen(false);
+  };
+
+  const deleteAllNotes = async () => {
+    const confirmation = prompt(
+      "Are you sure you want to delete all notes? (yes/no)"
+    );
+    if (confirmation === "yes") {
+      try {
+        notes.splice(0, notes.length);
+        const res = await axios.delete(
+          `${import.meta.env.VITE_SERVER_URL}/delete-all-notes`,
+          { withCredentials: true }
+        );
+        console.log(res, "All notes deleted.");
+      } catch (error) {
+        console.error("Error occurred:", error);
+      }
+    } else {
+      console.log("Deletion cancelled.");
+    }
   };
 
   const deleteNote = async () => {
@@ -80,8 +98,6 @@ const Notes = () => {
     }
   };
 
-  const updateNote = () => {}; // To be defined
-
   const formik = useFormik({
     initialValues: { title: "", category: "", body: "" },
     validateOnBlur: true,
@@ -102,30 +118,45 @@ const Notes = () => {
 
       <div className="notes">
         <div className="notes_title">
-          <h1>User Notes</h1>
+          <h1>User Notes </h1>
+          <h2>
+            {notes.length > 1
+              ? `${notes.length} notes`
+              : `${notes.length} note`}
+          </h2>
           <span className="add_note" onClick={() => setIsOpen(true)}>
             Add New Note
             <IoMdAddCircleOutline />
           </span>
         </div>
 
-        {searchedValue.length > 0 ? (
-          searchedValue.map((note: any) => {
-            return (
-              <NoteElement
-                deleteNote={deleteNote}
-                key={note.title}
-                title={note.title}
-                category={note.category}
-                body={note.body}
-              />
-            );
-          })
-        ) : (
-          <h1>Nothing to see here...yet.</h1>
-        )}
+        {searchedValue.length > 0
+          ? searchedValue.map((note: any) => {
+              return (
+                <NoteElement
+                  id={note._id}
+                  deleteNote={deleteNote}
+                  key={note.title}
+                  title={note.title}
+                  category={note.category}
+                  body={note.body}
+                />
+              );
+            })
+          : notes.map((note: any) => {
+              return (
+                <NoteElement
+                  id={note._id}
+                  deleteNote={deleteNote}
+                  key={note.title}
+                  title={note.title}
+                  category={note.category}
+                  body={note.body}
+                />
+              );
+            })}
       </div>
-      <span className="delete_notes">
+      <span onClick={deleteAllNotes} className="delete_notes">
         Delete All Notes
         <AiFillDelete />
       </span>

@@ -29,6 +29,18 @@ export const createUser = async (name, email, password) => {
   await newUser.save();
 };
 
+export const deleteAllNotes = async () => {
+  try {
+    const result = await UserModel.updateMany(
+      {},
+      { $set: { "nestedObject.notes": [] } }
+    );
+    console.log("documents updated successfully");
+  } catch (error) {
+    console.error("Error occurred:", error);
+  }
+};
+
 export const getUser = async (name: string) => {
   const user = await UserModel.findOne({ name }).select({ password: 0 }).exec();
   if (user !== null) return user;
@@ -89,5 +101,3 @@ export const updateNote = async (title: string, name: string, body: string) => {
   );
   return res;
 };
-
-export const filterNotesByCriteria = (category: string) => {};

@@ -11,6 +11,14 @@ interface Request extends ExpressRequest {
   };
 }
 
+noteRouter.delete("/delete-all-notes", async (req: Request, res: Response) => {
+  try {
+    await helper.deleteAllNotes();
+  } catch (error) {
+    console.log(error);
+  }
+  res.send({ success: true, message: "Notes deleted successfully" });
+});
 noteRouter.get("/notes", async (req: Request, res: Response) => {
   const notes = await helper.viewAllNotes(req.user.name);
   res.send(notes);
@@ -50,7 +58,6 @@ noteRouter.post("/notes", async (req: Request, res) => {
 });
 
 noteRouter.put("/edit", async (req, res) => {
-  // Update a note
   const { name, title, body } = req.body;
   const updatedNote = await helper.updateNote(title, name, body);
   if (updatedNote) {
@@ -59,5 +66,7 @@ noteRouter.put("/edit", async (req, res) => {
       message: `Note with the title ${title} changed successfully`,
     });
   } else
-    res.status(500).json({ success: false, err: "No such note found in the database" });
+    res
+      .status(500)
+      .json({ success: false, err: "No such note found in the database" });
 });
