@@ -29,13 +29,9 @@ export const createUser = async (name, email, password) => {
   await newUser.save();
 };
 
-export const deleteAllNotes = async () => {
+export const deleteAllNotes = async (name:string) => {
   try {
-    const result = await UserModel.updateMany(
-      {},
-      { $set: { "nestedObject.notes": [] } }
-    );
-    console.log("documents updated successfully");
+    const result = await UserModel.updateOne({name: name }, { $set: { notes: [] } });
   } catch (error) {
     console.error("Error occurred:", error);
   }
@@ -83,8 +79,13 @@ export const createNote = async (name: string, noteObject: NotesProps) => {
 export const deleteNote = async (name: string, noteIdx: number) => {
   const res = await UserModel.findOne({ name }).select({ notes: 1 }).exec();
   const newNotes = res.notes.filter((_, idx) => noteIdx !== idx);
-
-  await UserModel.updateOne({ name }, { notes: newNotes }).exec();
+  try {
+    await UserModel.updateOne({ name }, { notes: newNotes }).exec();
+    return true
+  } catch (error) {
+    return false
+  }
+  
 };
 
 export const viewOneNote = async (title: string, id: number) => {

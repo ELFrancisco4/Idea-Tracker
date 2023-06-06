@@ -13,7 +13,7 @@ interface Request extends ExpressRequest {
 
 noteRouter.delete("/delete-all-notes", async (req: Request, res: Response) => {
   try {
-    await helper.deleteAllNotes();
+    await helper.deleteAllNotes(req.user.name);
   } catch (error) {
     console.log(error);
   }
@@ -37,12 +37,14 @@ noteRouter.get("/notes/:id", (req: Request, res: Response) => {
   }
 });
 
-noteRouter.delete("/remove-note", async (req, res) => {
-  const { name, idx } = req.body;
-
-  await helper.deleteNote(name, idx);
-
-  res.send({ success: true, message: "Note deleted successfully" });
+noteRouter.delete("/remove-note/:id", async (req: Request, res: Response) => {
+  const query = await helper.deleteNote(req.user.name, parseInt(req.params.id));
+  if (query) res.send({ success: true, message: "Note deleted successfully" });
+  else
+    res.send({
+      success: false,
+      message: "Something went wrong, try again later",
+    });
 });
 
 noteRouter.post("/notes", async (req: Request, res) => {

@@ -1,4 +1,4 @@
 - Make signin page responsive: DONE
 - Implement the feature that when a user clicks on a specific note, the user gets directed to a full screen version of the note: DONE
 - Implement note updating functionality: DONE
-- Implement note deletion functionality
+- Implement note deletion functionality: DONE

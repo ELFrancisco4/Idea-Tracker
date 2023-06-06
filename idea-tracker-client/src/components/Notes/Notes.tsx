@@ -69,7 +69,7 @@ const Notes = () => {
           `${import.meta.env.VITE_SERVER_URL}/delete-all-notes`,
           { withCredentials: true }
         );
-        console.log(res, "All notes deleted.");
+        alert("All notes successfully deleted");
       } catch (error) {
         console.error("Error occurred:", error);
       }
@@ -79,13 +79,11 @@ const Notes = () => {
   };
 
   const deleteNote = async () => {
-    const name = localStorage.getItem("name");
-    const promptValue: any = prompt("Enter id of note to be deleted");
+    const promptValue: any = prompt("Enter id of note to be deleted (Starting from 0)");
     const idx = parseInt(promptValue);
     const res = await axios.delete(
-      `${import.meta.env.VITE_SERVER_URL}/remove-note`,
+      `${import.meta.env.VITE_SERVER_URL}/remove-note/${idx}`,
       {
-        data: { name, idx },
         withCredentials: true,
       }
     );
@@ -117,6 +115,7 @@ const Notes = () => {
       />
 
       <div className="notes">
+      <p>Click on the eye icon to view a note</p>
         <div className="notes_title">
           <h1>User Notes </h1>
           <h2>
@@ -125,7 +124,7 @@ const Notes = () => {
               : `${notes.length} note`}
           </h2>
           <span className="add_note" onClick={() => setIsOpen(true)}>
-            Add New Note
+            New Note
             <IoMdAddCircleOutline />
           </span>
         </div>
@@ -136,7 +135,7 @@ const Notes = () => {
                 <NoteElement
                   id={note._id}
                   deleteNote={deleteNote}
-                  key={note.title}
+                  key={note._id}
                   title={note.title}
                   category={note.category}
                   body={note.body}

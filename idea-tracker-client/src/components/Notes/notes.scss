@@ -112,6 +112,10 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+
+    span{
+      max-width: 150px;
+    }
   }
 }
 
@@ -203,9 +207,17 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 20px;
       width: 100%;
+      h1,h2{
+        font-size: 1.5rem;
+      }
       span {
-        width: fit-content;
+        width: 40% !important;
+        height: 50px !important;
+        svg{
+          font-size: 40px;
+        }
       }
     }
   }
@@ -220,10 +232,10 @@
   }
 
   .add_note {
-    width: 100%;
+    width: 80%;
   }
-
   .delete_notes {
+    max-width: 200px;
     width: 100%;
   }
 

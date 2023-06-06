@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.filterNotesByCriteria = exports.updateNote = exports.viewOneNote = exports.deleteNote = exports.createNote = exports.deleteUser = exports.comparePasswords = exports.hashPassword = exports.getUser = exports.createUser = exports.viewAllNotes = void 0;
+exports.updateNote = exports.viewOneNote = exports.deleteNote = exports.createNote = exports.deleteUser = exports.comparePasswords = exports.hashPassword = exports.getUser = exports.deleteAllNotes = exports.createUser = exports.viewAllNotes = void 0;
 const users_1 = require("../models/users");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const viewAllNotes = (name) => __awaiter(void 0, void 0, void 0, function* () {
@@ -37,6 +37,15 @@ const createUser = (name, email, password) => __awaiter(void 0, void 0, void 0, 
     yield newUser.save();
 });
 exports.createUser = createUser;
+const deleteAllNotes = (name) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield users_1.UserModel.updateOne({ name: name }, { $set: { notes: [] } });
+    }
+    catch (error) {
+        console.error("Error occurred:", error);
+    }
+});
+exports.deleteAllNotes = deleteAllNotes;
 const getUser = (name) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield users_1.UserModel.findOne({ name }).select({ password: 0 }).exec();
     if (user !== null)
@@ -76,7 +85,13 @@ exports.createNote = createNote;
 const deleteNote = (name, noteIdx) => __awaiter(void 0, void 0, void 0, function* () {
     const res = yield users_1.UserModel.findOne({ name }).select({ notes: 1 }).exec();
     const newNotes = res.notes.filter((_, idx) => noteIdx !== idx);
-    yield users_1.UserModel.updateOne({ name }, { notes: newNotes }).exec();
+    try {
+        yield users_1.UserModel.updateOne({ name }, { notes: newNotes }).exec();
+        return true;
+    }
+    catch (error) {
+        return false;
+    }
 });
 exports.deleteNote = deleteNote;
 const viewOneNote = (title, id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -90,6 +105,4 @@ const updateNote = (title, name, body) => __awaiter(void 0, void 0, void 0, func
     return res;
 });
 exports.updateNote = updateNote;
-const filterNotesByCriteria = (category) => { };
-exports.filterNotesByCriteria = filterNotesByCriteria;
 //# sourceMappingURL=helpers.js.map

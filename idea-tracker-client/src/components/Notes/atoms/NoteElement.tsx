@@ -7,7 +7,7 @@ type NoteProps = {
   deleteNote?: () => void;
 };
 import { FaRegEdit } from "react-icons/fa";
-import { GrFormView } from "react-icons/gr";
+import { GrView } from "react-icons/gr";
 import { AiFillDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
@@ -28,13 +28,14 @@ const NoteElement = ({
   };
   return (
     <React.Fragment key={key}>
-      <div className="note" onClick={handleRedirect}>
+      <div className="note">
         <h3>{title}</h3>
         <span>{category}</span>
         <div>{body}</div>
         <span>
           {" "}
-          <FaRegEdit /> <GrFormView /> <AiFillDelete onClick={deleteNote} />
+          <FaRegEdit /> <GrView onClick={handleRedirect} />{" "}
+          <AiFillDelete onClick={deleteNote} />
         </span>
       </div>
     </React.Fragment>

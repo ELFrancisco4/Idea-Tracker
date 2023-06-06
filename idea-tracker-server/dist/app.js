@@ -23,11 +23,16 @@ const home_1 = require("./home");
 const user_1 = require("./user");
 const guarded_1 = require("./guarded");
 const auth_1 = require("./controllers/auth");
+const fs = require("fs");
+const morgan = require("morgan");
 const PORT = process.env.PORT || 5000;
 const app = (0, express_1.default)();
+const accessLogStream = fs.createWriteStream("./access.log", { flags: "a" });
+app.use(morgan("combined", { stream: accessLogStream }));
 app.use(cors({
-    origin: "https://idea-tracker-six.vercel.app",
+    origin: ["https://idea-tracker-six.vercel.app", "http://localhost:3000"],
     credentials: true,
+    methods: ["GET", "POST", "DELETE", "PUT"],
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));

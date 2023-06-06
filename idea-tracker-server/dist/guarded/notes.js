@@ -36,6 +36,15 @@ exports.noteRouter = void 0;
 const express_1 = require("express");
 const helper = __importStar(require("../controllers/helpers"));
 exports.noteRouter = (0, express_1.Router)();
+exports.noteRouter.delete("/delete-all-notes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield helper.deleteAllNotes(req.user.name);
+    }
+    catch (error) {
+        console.log(error);
+    }
+    res.send({ success: true, message: "Notes deleted successfully" });
+}));
 exports.noteRouter.get("/notes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const notes = yield helper.viewAllNotes(req.user.name);
     res.send(notes);
@@ -53,10 +62,15 @@ exports.noteRouter.get("/notes/:id", (req, res) => {
         res.status(500).json({ err: "Could not get user data" });
     }
 });
-exports.noteRouter.delete("/remove-note", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, idx } = req.body;
-    yield helper.deleteNote(name, idx);
-    res.send({ success: true, message: "Note deleted successfully" });
+exports.noteRouter.delete("/remove-note/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = yield helper.deleteNote(req.user.name, parseInt(req.params.id));
+    if (query)
+        res.send({ success: true, message: "Note deleted successfully" });
+    else
+        res.send({
+            success: false,
+            message: "Something went wrong, try again later",
+        });
 }));
 exports.noteRouter.post("/notes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { title, category, body } = req.body;
@@ -69,7 +83,6 @@ exports.noteRouter.post("/notes", (req, res) => __awaiter(void 0, void 0, void 0
     res.send({ success: true });
 }));
 exports.noteRouter.put("/edit", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Update a note
     const { name, title, body } = req.body;
     const updatedNote = yield helper.updateNote(title, name, body);
     if (updatedNote) {
@@ -79,6 +92,8 @@ exports.noteRouter.put("/edit", (req, res) => __awaiter(void 0, void 0, void 0, 
         });
     }
     else
-        res.status(500).json({ success: false, err: "No such note found in the database" });
+        res
+            .status(500)
+            .json({ success: false, err: "No such note found in the database" });
 }));
 //# sourceMappingURL=notes.js.map
