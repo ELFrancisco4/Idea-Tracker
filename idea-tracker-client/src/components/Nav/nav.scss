@@ -5,19 +5,22 @@ nav {
   height: 100vh;
   align-items: center;
   justify-content: space-between;
+  opacity: 0.9;
   padding: 1em;
-  background-color: var(--theme-purple);
+  background-color: var(--secondary-color);
   color: var(--secondary-color);
 
+  .logo {
+    p {
+      color: var(--primary-color);
+    }
+  }
   .add_note {
-    background-color: #000;
+    background-color: var(--primary-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
     cursor: pointer;
-    svg {
-      fill: var(--theme-purple);
-    }
   }
 }
 
@@ -38,8 +41,8 @@ nav svg {
   height: 50px;
   padding: 0.5em;
   border-radius: 5px;
-  background-color: var(--theme-red);
-  color: var(--text-color);
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   text-align: center;
   display: flex;
   align-items: center;

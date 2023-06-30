@@ -8,7 +8,7 @@
       color: var(--secondary-color);
       height: 100%;
       width: 80%;
-      background: linear-gradient(var(--theme-purple), rgba(0, 0, 0, 0.5)),
+      background: linear-gradient(var(--primary-color), rgba(13, 156, 199, 0.5)),
         url("../../assets/written-score-clipart-13-3991362681.jpg") no-repeat
           center center/cover;
       display: flex;
@@ -50,7 +50,7 @@
         justify-content: center;
         gap: 20px;
         label {
-          color: var(--theme-purple);
+          color: var(--secondary-color);
         }
         div {
           display: flex;
@@ -77,7 +77,7 @@
         }
       }
       button {
-        background-color: var(--theme-purple);
+        background-color: var(--primary-color);
         color: var(--secondary-color);
         font-weight: bold;
         cursor: pointer;

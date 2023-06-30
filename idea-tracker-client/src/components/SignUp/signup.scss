@@ -6,7 +6,7 @@
     width: 60%;
     background: linear-gradient(
       to bottom,
-      var(--theme-purple),
+      var(--accent-color),
       var(--primary-color)
     );
     color: var(--secondary-color);
@@ -65,7 +65,7 @@
     }
 
     button {
-      background-color: var(--theme-purple);
+      background-color: var(--accent-color);
       color: var(--secondary-color);
       font-weight: bold;
       cursor: pointer;

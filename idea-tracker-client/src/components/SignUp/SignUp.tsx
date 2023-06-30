@@ -8,25 +8,28 @@ import Logo from "../Shared Components/Logo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./signup.scss";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const handleSignUp = async (values: FormikValues) => {
     try {
       const { name, email, password } = values;
-      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/signup`, {
-        name,
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/signup`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       if (res) {
-        alert("User created successfully");
+        toast.success("User created successfully");
         navigate("/login");
       }
     } catch (error) {
-      alert("User could not be created.");
-      console.log(error);
+      toast.error("Something went wrong, try again");
     }
   };
 

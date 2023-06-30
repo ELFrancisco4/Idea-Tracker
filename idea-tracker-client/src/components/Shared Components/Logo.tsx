@@ -1,7 +1,7 @@
 import { FcIdea } from "react-icons/fc";
 const Logo = () => {
   return (
-    <div>
+    <div className="logo">
       <FcIdea />
       <p>IdeaTracker</p>{" "}
     </div>

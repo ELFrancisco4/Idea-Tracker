@@ -5,12 +5,15 @@ import "../notes.scss";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegEdit } from "react-icons/fa";
 import Nav from "../../Nav/Nav";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Note = () => {
   const params = useParams();
   const [note, setNote] = useState<any>({});
   const [isReadOnly, setIsReadOnly] = useState(true);
   const currentUser = JSON.parse(localStorage.getItem("currentUser") as string);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -35,8 +38,14 @@ const Note = () => {
         },
         { withCredentials: true }
       );
+
+      if (res) {
+        toast.success("Your note has been updated!");
+        navigate('/home')
+      }
     } catch (error) {
       console.error(error);
+      toast.error("Something went wrong, try again later");
     }
   };
 

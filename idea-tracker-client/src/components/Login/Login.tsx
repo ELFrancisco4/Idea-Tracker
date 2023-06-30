@@ -10,6 +10,7 @@ import * as yup from "yup";
 import { FormikValues, useFormik } from "formik";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   name: yup.string().required(),
@@ -35,18 +36,17 @@ const Login = () => {
         { withCredentials: true }
       );
 
-     
-
       if (res) {
         navigate("/home");
         setIsLoggedIn(true);
         localStorage.setItem("currentUser", JSON.stringify({ name }));
+        toast.success("Welcome back!")
       } else {
         alert("Login Failed. Username or Password incorrect");
       }
     } catch (error: any) {
       setError(error.response.data);
-      alert("Something went wrong. Please try again later");
+      toast.error("Login failed. Please try again")
     }
   };
 
